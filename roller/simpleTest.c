@@ -17,6 +17,8 @@
 #include <tgmath.h>
 #include "util.h"
 
+#define _USE_MATH_CONSTATS
+
 // Camera configuration.
 #ifdef _WIN32
 char			*vconf = "Data\\WDM_camera_flipV.xml";
@@ -40,7 +42,7 @@ double  patt_width     = 80.0;
 double  patt_center[2] = {0.0, 0.0};
 double  patt_trans[3][4];
 double  ball_position[2] = {0.0, 0.0};
-double  speed = 0.1;        
+double  speed = 0.2;        
 
 static void init(void);
 static void cleanup(void);
@@ -68,7 +70,7 @@ static void   keyEvent( unsigned char key, int x, int y)
 {
   /* quit if the ESC key is pressed */
   if( key == 0x1b ) {
-      printf("*** %f (frame/sec)\n", (double)count/arUtilTimer());
+    printf("*** %f (frame/sec)\n", (double)count/arUtilTimer());
       cleanup();
       exit(0);
   }
@@ -81,7 +83,7 @@ static void mainLoop(void)
     ARMarkerInfo    *marker_info;
     int             marker_num;
     int             j, k;
-    double rot[3][3];
+    //double rot[3][3];
     double wa=0.0, wb=0.0, wc=0.0;
     double xspeed, yspeed;
 
@@ -120,16 +122,23 @@ static void mainLoop(void)
     /* get the transformation between the marker and the real camera */
     arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
-    /*Obtiene la matriz de rotacion*/
-    for (j=0; j<3; j++) {
-      for(k=0; k<3; k++) {
-        rot[j][k] = patt_trans[j][k];
-      }
-    }
-    
-    get_angle(patt_trans, &wa, &wb, &wc);
-    printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
+  // Obtiene el angulo euleriano.
+  get_angle(patt_trans, &wa, &wb, &wc);
+   
+  //Angulos eulerianos.
+  printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb), toDegree(wc));
 
+  double omega[3];
+  omega[0] = wb*cos(wa) + wa*sin(wb)*sin(wa);
+  omega[1] = -wb*sin(wa) + wb*sin(wb)*cos(wa);
+  omega[2] = wa + wa*cos(wb);
+
+  printf("omega:(%f, %f, %f)\n", omega[0], omega[1], omega[2]);
+
+    //Inclinaciones verticales. Es importante destacar que el angulo
+    // wb es positivo siempre, para determinar si la marca esta boca
+    //abajo hay que checkear el signo de wa. Como la marca siempre 
+    //mira hacia arriba, no es estrictamente necesario este checkeo.
     if (wb > 1.80) {
       printf("adelante\n");
       ball_position[1] = ball_position[1] - speed;
@@ -138,6 +147,7 @@ static void mainLoop(void)
       ball_position[1] = ball_position[1] + speed;
     }
 
+    //Inclinaciones horizontales.
     if (wc > 0) {
       printf("derecha\n");
       ball_position[0] = ball_position[0] + speed;
