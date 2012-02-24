@@ -6,13 +6,16 @@ LDFLAG=-pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lxml2 -lgthread-2.
 LIBS= -lARgsub -lARvideo -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm
 CFLAG= -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
 
-OBJS =
-HEADDERS =
+OBJS = util.o
+HEADDERS = util.h
 
 all: $(BIN_DIR)/simpleTest
 
-$(BIN_DIR)/simpleTest: simpleTest.o $(OBJS)
+$(BIN_DIR)/simpleTest: simpleTest.o util.o $(OBJS)
 	cc -o $(BIN_DIR)/simpleTest simpleTest.o $(OBJS) $(LDFLAG) $(LIBS)
+
+util.o: util.c $(HEADDERS)
+	cc -c $(CFLAG) util.c
 
 simpleTest.o: simpleTest.c $(HEADDERS)
 	cc -c $(CFLAG) simpleTest.c
@@ -25,3 +28,4 @@ allclean:
 	rm -f *.o
 	rm -f $(BIN_DIR)/simpleTest
 	rm -f Makefile
+

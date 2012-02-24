@@ -15,6 +15,7 @@
 #include <AR/param.h>
 #include <AR/ar.h>
 #include <tgmath.h>
+#include "util.h"
 
 // Camera configuration.
 #ifdef _WIN32
@@ -39,7 +40,7 @@ double  patt_width     = 80.0;
 double  patt_center[2] = {0.0, 0.0};
 double  patt_trans[3][4];
 double  ball_position[2] = {0.0, 0.0};
-double  speed = 0.15;        
+double  speed = 0.1;        
 
 static void init(void);
 static void cleanup(void);
@@ -125,31 +126,25 @@ static void mainLoop(void)
         rot[j][k] = patt_trans[j][k];
       }
     }
-    arGetAngle(rot, &wa, &wb, &wc);
-    printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
     
-    if (wc > 0) {
-      if (wa > 0) {
-        printf("Derecha y arriba\n");
-        yspeed = -speed;
-      } else {
-        printf("Derecha y abajo\n");
-        yspeed = speed;
-      }
-      xspeed = speed;
+    get_angle(patt_trans, &wa, &wb, &wc);
+    printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
 
+    if (wb > 1.80) {
+      printf("adelante\n");
+      ball_position[1] = ball_position[1] - speed;
     } else {
-      if (wa > 0) {
-        printf("Izquierda y arriba\n");
-        yspeed = -speed;
-      } else {
-        printf("Izquierda y abajo\n");
-        yspeed = speed;
-      }    
-      xspeed = -speed;
+      printf("atras\n");
+      ball_position[1] = ball_position[1] + speed;
     }
-    ball_position[0] = ball_position[0] + xspeed;
-    ball_position[1] = ball_position[1] + yspeed;
+
+    if (wc > 0) {
+      printf("derecha\n");
+      ball_position[0] = ball_position[0] + speed;
+    } else {
+      printf("izquierda\n");
+      ball_position[0] = ball_position[0] - speed;
+    }
     printf("--------------------------------------\n");
 
     draw();
@@ -238,7 +233,7 @@ static void draw( void )
     glMatrixMode(GL_MODELVIEW);
     glTranslatef(ball_position[0], ball_position[1], 1.0 );
     glColor3f(1.0f,0.0f,0.0f);  
-    glutSolidSphere(10.0, 10, 10);
+    glutSolidSphere(5.0, 10, 10);
     glDisable( GL_LIGHTING );
 
     glDisable( GL_DEPTH_TEST );
