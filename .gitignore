@@ -1,0 +1,16 @@
+#Archivos a ignorar.
+*.swp
+*.~
+*.a
+*.o
+
+#Se ignora los contenidos de bin, menos
+#Data.
+bin/*
+!bin/Data
+
+#Archivos innecesarios de ARToolKit
+lib/ARToolKit/bin/
+lib/ARToolKit/examples/
+lib/ARToolKit/doc/
+
