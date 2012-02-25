@@ -9,23 +9,23 @@ CFLAG= -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/
 OBJS = util.o
 HEADDERS = util.h
 
-all: $(BIN_DIR)/simpleTest
+all: $(BIN_DIR)/roller
 
-$(BIN_DIR)/simpleTest: simpleTest.o util.o $(OBJS)
-	cc -o $(BIN_DIR)/simpleTest simpleTest.o $(OBJS) $(LDFLAG) $(LIBS)
+$(BIN_DIR)/roller: roller.o util.o $(OBJS)
+	cc -o $(BIN_DIR)/roller roller.o $(OBJS) $(LDFLAG) $(LIBS)
 
 util.o: util.c $(HEADDERS)
 	cc -c $(CFLAG) util.c
 
-simpleTest.o: simpleTest.c $(HEADDERS)
-	cc -c $(CFLAG) simpleTest.c
+roller.o: roller.c $(HEADDERS)
+	cc -c $(CFLAG) roller.c
 
 clean:
 	rm -f *.o
-	rm -f $(BIN_DIR)/simpleTest
+	rm -f $(BIN_DIR)/roller
 
 allclean:
 	rm -f *.o
-	rm -f $(BIN_DIR)/simpleTest
+	rm -f $(BIN_DIR)/roller
 	rm -f Makefile
 
