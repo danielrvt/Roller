@@ -1,0 +1,2 @@
+typedef struct Ball {
+} ball;

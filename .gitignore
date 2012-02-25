@@ -9,8 +9,8 @@
 bin/*
 !bin/Data
 
-#Archivos innecesarios de ARToolKit
-lib/ARToolKit/bin/
-lib/ARToolKit/examples/
-lib/ARToolKit/doc/
-
+#Para ARToolKit se ignoran los contenidos del
+#directorio de binarios.
+lib/ARToolKit/bin/*
+!lib/ARToolKit/bin/Data
+!lib/ARToolKit/bin/Wrl
