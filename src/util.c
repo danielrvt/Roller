@@ -2,6 +2,13 @@
 #include <math.h>
 #include "util.h"
 
+/**
+ * Obtiene la matriz de rotacion.
+ * @param: Angulo euleriano a.
+ * @param: Angulo euleriano b.
+ * @param: Angulo euleriano c.
+ * @param: Una matriz vacia[3][4] (out).
+ */
 void get_rot( double a, double b , double c, double trans[3][4] )
 {
     double  sina, sinb, sinc, cosa, cosb, cosc;
@@ -22,6 +29,13 @@ void get_rot( double a, double b , double c, double trans[3][4] )
     return;
 }
 
+/**
+ * Obtiene el angulo euleriano.
+ * @param: Una matriz de transformacion.
+ * @param: Angulo euleriano a* (out).
+ * @param: Angulo euleriano b* (out).
+ * @param: Angulo euleriano c* (out).
+ */
 int get_angle( double trans[3][4], double *wa, double *wb, double *wc )
 {
     double      a, b, c;
