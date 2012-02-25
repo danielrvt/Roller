@@ -119,14 +119,16 @@ static void mainLoop(void)
         return;
     }
         
-    /* get the transformation between the marker and the real camera */
-    arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
+  // Obtiene la matriz de transformacion entre la marca y la
+  // camara.
+  arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
   // Obtiene el angulo euleriano.
   get_angle(patt_trans, &wa, &wb, &wc);
    
   //Angulos eulerianos.
   printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb), toDegree(wc));
+  printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb)-90, toDegree(wc));
   printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
 
     //Inclinaciones verticales. Es importante destacar que el angulo

@@ -1,6 +1,6 @@
-INC_DIR= ../ARToolKit/include
-LIB_DIR= ../ARToolKit/lib
-BIN_DIR= ./bin
+INC_DIR= ../lib/ARToolKit/include
+LIB_DIR= ../lib/ARToolKit/lib
+BIN_DIR= ../bin
 
 LDFLAG=-pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lxml2 -lgthread-2.0 -lrt -lglib-2.0 -L/usr/X11R6/lib -L/usr/local/lib -L$(LIB_DIR)
 LIBS= -lARgsub -lARvideo -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm
