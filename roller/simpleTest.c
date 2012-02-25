@@ -127,19 +127,13 @@ static void mainLoop(void)
    
   //Angulos eulerianos.
   printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb), toDegree(wc));
-
-  double omega[3];
-  omega[0] = wb*cos(wa) + wa*sin(wb)*sin(wa);
-  omega[1] = -wb*sin(wa) + wb*sin(wb)*cos(wa);
-  omega[2] = wa + wa*cos(wb);
-
-  printf("omega:(%f, %f, %f)\n", omega[0], omega[1], omega[2]);
+  printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
 
     //Inclinaciones verticales. Es importante destacar que el angulo
     // wb es positivo siempre, para determinar si la marca esta boca
     //abajo hay que checkear el signo de wa. Como la marca siempre 
     //mira hacia arriba, no es estrictamente necesario este checkeo.
-    if (wb > 1.80) {
+    if (wb > 1.75) {
       printf("adelante\n");
       ball_position[1] = ball_position[1] - speed;
     } else {
