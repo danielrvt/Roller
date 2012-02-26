@@ -44,7 +44,10 @@ double  patt_center[2] = {0.0, 0.0};
 double  patt_trans[3][4];
 double  ball_position[2] = {0.0, 0.0};
 double  ball_speed = 0.5; 
-double  flat_angle = 1.9198621771937625; // En radianes.
+
+// Angulo del eje Y en radianes cuando la marca 
+// esta paralela al suelo.
+//double  flat_angle = 1.9198621771937625;
 
 // Prototipos.
 static void init(void);
@@ -84,7 +87,7 @@ static void mainLoop(void)
   ARMarkerInfo    *marker_info;
   int             marker_num;
   int             j, k;
-  double wa=0.0, wb=0.0, wc=0.0; //Angulos eulerianos.
+  double omega[2];
 
   // Obtiene un cuadro de video de la camara.
   if( (dataPtr = (ARUint8 *)arVideoGetImage()) == NULL ) {
@@ -123,44 +126,14 @@ static void mainLoop(void)
   // camara.
   arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
-  // Obtiene el angulo euleriano.
-  get_angle(patt_trans, &wa, &wb, &wc);
-   
-  // Angulos eulerianos.
-  //printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb)-110, toDegree(wc));
-  //printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
-
-  double omega[2];
-  
-  omega[0] = wc;
-  omega[1] = wb-(110*M_PI/180);
-
+  // Obtiene la velocidad angular de la pelota.
+  get_ball_omega(patt_trans, &omega[0], &omega[1]);
   printf("omega: (%f, %f)\n", omega[0], omega[1]);
-
-  // Inclinaciones verticales. Es importante destacar que el angulo
-  // wb es positivo siempre, para determinar si la marca esta boca
-  // abajo hay que checkear el signo de wa. Como la marca siempre 
-  // mira hacia arriba, no es estrictamente necesario este checkeo.
-  if (toDegree(wb)-110 > 0) {
-    printf("atras\n");
-    //ball_position[1] = ball_position[1] - ball_speed;
-    //ball_position[1] = ball_position[1] - ball_speed;
-  } else {
-    printf("adelante\n");
-    //ball_position[1] = ball_position[1] + ball_speed;
-  }
-
-  // Inclinaciones horizontales.
-  if (wc > 0) {
-    printf("derecha\n");
-    //ball_position[0] = ball_position[0] + ball_speed;
-  } else {
-    printf("izquierda\n");
-    //ball_position[0] = ball_position[0] - ball_speed;
-  }
+  printf("--------------------------------------\n");
+  
+  // Actualiza la posicion de la pelota.
   ball_position[0] = ball_position[0] + omega[0]*ball_speed;
   ball_position[1] = ball_position[1] + (-1)*omega[1]*ball_speed;
-  printf("--------------------------------------\n");
 
   draw();
   argSwapBuffers();

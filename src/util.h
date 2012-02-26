@@ -11,6 +11,14 @@
 void   get_rot( double a, double b , double c, double trans[3][4] );
 
 /**
+ * Retorna la velocidad angular.
+ * @param: Matriz de transformacion entre la marca y la camara.
+ * @param: Angulo de inclinacion horizontal. (out)
+ * @param: Angulo de inclinacion vertical. (out)
+ */
+void get_ball_omega(double trans[3][4], double *wx, double *wy);
+
+/**
  * Obtiene el angulo euleriano.
  * @param: Una matriz de transformacion.
  * @param: Angulo euleriano a* (out).
