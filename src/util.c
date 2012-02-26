@@ -3,7 +3,6 @@
 #include "util.h"
 
 #define _USE_MATH_CONSTATS
-#define GAME_FLAT_ANGLE 1.9198621771937625
 
 /**
  * Obtiene la matriz de rotacion.

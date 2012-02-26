@@ -45,10 +45,6 @@ double  patt_trans[3][4];
 double  ball_position[2] = {0.0, 0.0};
 double  ball_speed = 0.5; 
 
-// Angulo del eje Y en radianes cuando la marca 
-// esta paralela al suelo.
-//double  flat_angle = 1.9198621771937625;
-
 // Prototipos.
 static void init(void);
 static void cleanup(void);
@@ -208,13 +204,15 @@ static void draw( void ) {
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
   glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
+  glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION); // Importante para 
+  glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);	
   glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
   glMatrixMode(GL_MODELVIEW);
-  glTranslatef(ball_position[0], ball_position[1], 1.0 );
-  glColor3f(1.0f,0.0f,0.0f);  
-  glutSolidSphere(5.0, 10, 10);
+  glTranslatef(ball_position[0], ball_position[1], 1.0);
+  glColor3f(0.0f,1.0f,0.0f);  
+  glutSolidSphere(10.0, 10, 10);
   glDisable( GL_LIGHTING );
 
   glDisable( GL_DEPTH_TEST );

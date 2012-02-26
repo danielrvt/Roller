@@ -1,6 +1,10 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+// Angulo de inclinacion neutro de la marca. En este
+// angulo, la pelota no rueda.
+#define GAME_FLAT_ANGLE 1.9198621771937625
+
 /**
  * Obtiene la matriz de rotacion.
  * @param: Angulo euleriano a.
