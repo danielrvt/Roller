@@ -26,14 +26,13 @@ char			*vconf = "";
 #endif
 
 // Constantes globales.
-double const Pi=3.141516;
 int xsize, ysize;
 int thresh = 100;
 int count = 0;
 
 // Directivas de configuracion de la
 // camara.
-char    *cparam_name   = "Data/camera_para.dat";
+char    *cparam_name = "Data/camera_para.dat";
 ARParam cparam;
 
 // Directivas de configuracion de la marca
@@ -44,7 +43,8 @@ double  patt_width     = 80.0;
 double  patt_center[2] = {0.0, 0.0};
 double  patt_trans[3][4];
 double  ball_position[2] = {0.0, 0.0};
-double  ball_speed = 0.1;        
+double  ball_speed = 0.5; 
+double  flat_angle = 1.9198621771937625; // En radianes.
 
 // Prototipos.
 static void init(void);
@@ -52,7 +52,6 @@ static void cleanup(void);
 static void keyEvent( unsigned char key, int x, int y);
 static void mainLoop(void);
 static void draw( void );
-static double toDegree(double rad);
 
 int main(int argc, char **argv)
 {
@@ -63,14 +62,6 @@ int main(int argc, char **argv)
   argMainLoop( NULL, keyEvent, mainLoop );
 
 	return (0);
-}
-
-/**
- * Transforma un grado de radianes a decimales.
- * @param: Grado en radianes.
- */
-static double toDegree(double rad) {
-  return (rad*180.0)/Pi;
 }
 
 static void   keyEvent( unsigned char key, int x, int y)
@@ -135,31 +126,40 @@ static void mainLoop(void)
   // Obtiene el angulo euleriano.
   get_angle(patt_trans, &wa, &wb, &wc);
    
-  //Angulos eulerianos.
-  printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb), toDegree(wc));
-  printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb)-90, toDegree(wc));
-  printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
+  // Angulos eulerianos.
+  //printf("wa:%f, wb:%f, wc:%f\n", toDegree(wa), toDegree(wb)-110, toDegree(wc));
+  //printf("wa:%f, wb:%f, wc:%f\n", wa, wb, wc);
 
-  //Inclinaciones verticales. Es importante destacar que el angulo
+  double omega[2];
+  
+  omega[0] = wc;
+  omega[1] = wb-(110*M_PI/180);
+
+  printf("omega: (%f, %f)\n", omega[0], omega[1]);
+
+  // Inclinaciones verticales. Es importante destacar que el angulo
   // wb es positivo siempre, para determinar si la marca esta boca
-  //abajo hay que checkear el signo de wa. Como la marca siempre 
-  //mira hacia arriba, no es estrictamente necesario este checkeo.
-  if (wb > 1.80) {
+  // abajo hay que checkear el signo de wa. Como la marca siempre 
+  // mira hacia arriba, no es estrictamente necesario este checkeo.
+  if (toDegree(wb)-110 > 0) {
     printf("atras\n");
-    ball_position[1] = ball_position[1] - ball_speed;
+    //ball_position[1] = ball_position[1] - ball_speed;
+    //ball_position[1] = ball_position[1] - ball_speed;
   } else {
     printf("adelante\n");
-    ball_position[1] = ball_position[1] + ball_speed;
+    //ball_position[1] = ball_position[1] + ball_speed;
   }
 
-  //Inclinaciones horizontales.
+  // Inclinaciones horizontales.
   if (wc > 0) {
     printf("derecha\n");
-    ball_position[0] = ball_position[0] + ball_speed;
+    //ball_position[0] = ball_position[0] + ball_speed;
   } else {
     printf("izquierda\n");
-    ball_position[0] = ball_position[0] - ball_speed;
+    //ball_position[0] = ball_position[0] - ball_speed;
   }
+  ball_position[0] = ball_position[0] + omega[0]*ball_speed;
+  ball_position[1] = ball_position[1] + (-1)*omega[1]*ball_speed;
   printf("--------------------------------------\n");
 
   draw();

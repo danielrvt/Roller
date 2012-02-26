@@ -2,6 +2,8 @@
 #include <math.h>
 #include "util.h"
 
+#define _USE_MATH_CONSTATS
+
 /**
  * Obtiene la matriz de rotacion.
  * @param: Angulo euleriano a.
@@ -140,6 +142,39 @@ int get_angle( double trans[3][4], double *wa, double *wb, double *wc )
     *wc = c;
 
     return(0);
+}
+
+/**
+ * Transforma un grado de radianes a decimales.
+ * @param: Grado en radianes.
+ */
+double toDegree(double rad) {
+  return (rad*180.0)/M_PI;
+}
+
+/**
+ * Obtiene el angulo de inclinacion de la marca
+ * en grados. 
+ * La marca forma 0° al estar paralela al suelo, 
+ * y 90° al estar paralela a la camara. Esto es
+ * yangle.
+ * La marca forma 0° al estar paralela a la camara
+ * y 180° al estar mirando hacia los lados. Cuando
+ * mira hacia la derecha los grados son - y cuando
+ * mira hacia la izquierda los grados son +. Esto
+ * es xangle.
+ */
+void get_user_angle(double trans[3][4], double *xangle, double *yangle) {
+
+  double wa, wb, wc;
+
+  // Obtiene el angulo euleriano.
+  get_angle(trans, &wa, &wb, &wc);
+
+  // Obtiene el angulo de inclinacion de la marca
+  // en grados con respecto al eje natural del usuario.
+  *xangle = toDegree(wc);
+  *yangle = toDegree(wb) - 90;
 }
 
 double get_height( double px, double py, double trans[3][4], double boundary[3][2] )

@@ -18,6 +18,27 @@ void   get_rot( double a, double b , double c, double trans[3][4] );
  * @param: Angulo euleriano c* (out).
  */
 int    get_angle( double trans[3][4], double *wa, double *wb, double *wc );
+
+/**
+ * Transforma un grado de radianes a decimales.
+ * @param: Grado en radianes.
+ */
+double toDegree(double rad);
+
+/**
+ * Obtiene el angulo de inclinacion de la marca
+ * en grados. 
+ * La marca forma 0° al estar paralela al suelo, 
+ * y 90° al estar paralela a la camara. Esto es
+ * yangle.
+ * La marca forma 0° al estar paralela a la camara
+ * y 180° al estar mirando hacia los lados. Cuando
+ * mira hacia la derecha los grados son - y cuando
+ * mira hacia la izquierda los grados son +. Esto
+ * es xangle.
+ */
+void get_user_angle(double trans[3][4], double *xangle, double *yangle);
+
 double get_height( double x, double y, double trans[3][4], double boundary[3][2] );
 
 /* RJS */
