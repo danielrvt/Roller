@@ -204,16 +204,19 @@ static void draw( void ) {
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
   glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
+
   glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION); // Importante para 
   glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
+
   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);	
   glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+
   glMatrixMode(GL_MODELVIEW);
   glTranslatef(ball_position[0], ball_position[1], 1.0);
   glColor3f(0.0f,1.0f,0.0f);  
-  glutSolidSphere(10.0, 10, 10);
-  glDisable( GL_LIGHTING );
+  glutSolidSphere(5.0, 10, 10);
 
+  glDisable( GL_LIGHTING );
   glDisable( GL_DEPTH_TEST );
 }
