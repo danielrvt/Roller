@@ -42,7 +42,7 @@ Para instalar el juego deben seguirse los siguiente pasos:
    3) Ejecutar el juego:
         
         a. Entrar al directorio: "roller/bin/".
-        b Ejecutar "./roller".
+        b. Ejecutar "./roller".
 
       Esto debe desplegar una ventana con imagenes de la camara. Para 
       jugar se debe tener la marca HIRO y hacerla visible a la camara.
