@@ -46,6 +46,8 @@ void get_ball_omega(double trans[3][4], double *wx, double *wy) {
   
   *wx = wc;
   *wy = wb - GAME_FLAT_ANGLE;
+
+  printf("%f, %f, %f\n", toDegree(wa), toDegree(wb), toDegree(wc));
 }
 
 /**

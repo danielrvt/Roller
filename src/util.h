@@ -2,8 +2,11 @@
 #define UTIL_H
 
 // Angulo de inclinacion neutro de la marca. En este
-// angulo, la pelota no rueda.
-#define GAME_FLAT_ANGLE 1.9198621771937625
+// angulo, la pelota no rueda. Este angulo equivale
+// a unos 30° de inclinacion para alcanzar la 
+// estabilidad vertical.
+#define GAME_FLAT_ANGLE 2.0943951023931953   // 120°
+
 
 /**
  * Obtiene la matriz de rotacion.

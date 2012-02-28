@@ -214,7 +214,7 @@ static void draw( void ) {
 
   glMatrixMode(GL_MODELVIEW);
   glTranslatef(ball_position[0], ball_position[1], 1.0);
-  glColor3f(0.0f,1.0f,0.0f);  
+  glColor3f(0.0f,1.0f,1.5f);  
   glutSolidSphere(5.0, 10, 10);
 
   glDisable( GL_LIGHTING );
