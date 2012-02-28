@@ -3,7 +3,10 @@
 
 // Angulo de inclinacion neutro de la marca. En este
 // angulo, la pelota no rueda.
-#define GAME_FLAT_ANGLE 1.9198621771937625
+//#define GAME_FLAT_ANGLE 1.9198621771937625 // 110°
+#define GAME_FLAT_ANGLE 2.0943951023931953   // 120°
+//#define GAME_FLAT_ANGLE 2.2689280275926285   // 130°
+
 
 /**
  * Obtiene la matriz de rotacion.
