@@ -16,6 +16,7 @@
 #include <AR/ar.h>
 #include <tgmath.h>
 #include "util.h"
+#include "ball.h"
 
 #define _USE_MATH_CONSTATS
 
@@ -36,14 +37,14 @@ char    *cparam_name = "Data/camera_para.dat";
 ARParam cparam;
 
 // Directivas de configuracion de la marca
-// y la bola.
 char    *patt_name     = "Data/patt.hiro";
 int     patt_id;
 double  patt_width     = 80.0;
 double  patt_center[2] = {0.0, 0.0};
 double  patt_trans[3][4];
-double  ball_position[2] = {0.0, 0.0};
-double  ball_speed = 0.5; 
+
+// Pelota del laberinto.
+Ball ball;
 
 // Prototipos.
 static void init(void);
@@ -54,6 +55,12 @@ static void draw( void );
 
 int main(int argc, char **argv)
 {
+  // Inicializa la pelota en el centro del
+  // escenario con una velocidad de 0.5.
+  ball.position[0] = 0.0;
+  ball.position[1] = 0.0;
+  ball.speed = 0.5;
+
   // Inicializaciones generales.
 	glutInit(&argc, argv);
 	init();
@@ -122,14 +129,8 @@ static void mainLoop(void)
   // camara.
   arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
-  // Obtiene la velocidad angular de la pelota.
-  get_ball_omega(patt_trans, &omega[0], &omega[1]);
-  printf("omega: (%f, %f)\n", omega[0], omega[1]);
-  printf("--------------------------------------\n");
-  
   // Actualiza la posicion de la pelota.
-  ball_position[0] = ball_position[0] + omega[0]*ball_speed;
-  ball_position[1] = ball_position[1] + (-1)*omega[1]*ball_speed;
+  updateBallPosition(&ball, patt_trans);
 
   draw();
   argSwapBuffers();
@@ -185,7 +186,7 @@ static void draw( void ) {
   GLfloat   mat_flash_shiny[] = {50.0};
   GLfloat   light_position[]  = {100.0,-200.0,200.0,0.0};
   GLfloat   ambi[]            = {0.1, 0.1, 0.1, 0.1};
-  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.1};
+  GLfloat   lightZeroColor[]  = {0.9, 0.9, 0.9, 0.9};
   
   argDrawMode3D();
   argDraw3dCamera( 0, 0 );
@@ -199,23 +200,15 @@ static void draw( void ) {
   glMatrixMode(GL_MODELVIEW);
   glLoadMatrixd( gl_para );
 
+  // Setea condiciones de iluminacion.
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
   glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
-
-  glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION); // Importante para 
-  glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
-
-  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_flash);
-  glMaterialfv(GL_FRONT, GL_SHININESS, mat_flash_shiny);	
-  glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-
-  glMatrixMode(GL_MODELVIEW);
-  glTranslatef(ball_position[0], ball_position[1], 1.0);
-  glColor3f(0.0f,1.0f,1.5f);  
-  glutSolidSphere(5.0, 10, 10);
+  
+  // Dibuja la pelota.
+  drawBall(&ball);
 
   glDisable( GL_LIGHTING );
   glDisable( GL_DEPTH_TEST );
