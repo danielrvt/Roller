@@ -32,25 +32,6 @@ void get_rot( double a, double b , double c, double trans[3][4] )
 }
 
 /**
- * Retorna la velocidad angular.
- * @param: Matriz de transformacion entre la marca y la camara.
- * @param: Angulo de inclinacion horizontal. (out)
- * @param: Angulo de inclinacion vertical. (out)
- */
-void get_ball_omega(double trans[3][4], double *wx, double *wy) {
-  
-  double wa, wb, wc;
-
-  // Obtiene el angulo euleriano.
-  get_angle(trans, &wa, &wb, &wc);
-  
-  *wx = wc;
-  *wy = wb - GAME_FLAT_ANGLE;
-
-  printf("%f, %f, %f\n", toDegree(wa), toDegree(wb), toDegree(wc));
-}
-
-/**
  * Obtiene el angulo euleriano.
  * @param: Una matriz de transformacion.
  * @param: Angulo euleriano a* (out).
