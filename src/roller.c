@@ -17,6 +17,7 @@
 #include <tgmath.h>
 #include "util.h"
 #include "ball.h"
+#include "floor.h"
 
 #define _USE_MATH_CONSTATS
 
@@ -45,6 +46,8 @@ double  patt_trans[3][4];
 
 // Pelota del laberinto.
 Ball ball;
+//Tablero
+Floor table;
 
 // Prototipos.
 static void init(void);
@@ -60,6 +63,14 @@ int main(int argc, char **argv)
   ball.position[0] = 0.0;
   ball.position[1] = 0.0;
   ball.speed = 0.5;
+
+  //Inicializa el tablero.
+  table.coord[0] = 100;  //Coordenada x inicial
+  table.coord[1] = 100;  //Coordenada y inicial
+  table.coord[2] = -100; //Coordenada y final
+  table.coord[3] = -100; //Coordenada x final
+
+
 
   // Inicializaciones generales.
 	glutInit(&argc, argv);
@@ -206,7 +217,10 @@ static void draw( void ) {
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
   glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
-  
+
+  // Dibuja el tablero
+  drawFloor(&table);
+ 
   // Dibuja la pelota.
   drawBall(&ball);
 

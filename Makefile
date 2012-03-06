@@ -7,8 +7,8 @@ LDFLAG=-pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lxml2 -lgthread-2.
 LIBS= -lARgsub -lARvideo -lAR -lpthread -lglut -lGLU -lGL -lXi -lX11 -lm
 CFLAG= -O -pthread -I/usr/include/gstreamer-0.10 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libxml2 -I/usr/X11R6/include -g -I$(INC_DIR)
 
-OBJS = util.o roller.o ball.o
-HEADDERS = $(SRC_DIR)/util.h $(SRC_DIR)/ball.h
+OBJS = util.o roller.o ball.o floor.o
+HEADDERS = $(SRC_DIR)/util.h $(SRC_DIR)/ball.h $(SRC_DIR)/floor.h
 
 all: $(BIN_DIR)/roller
 
@@ -18,6 +18,8 @@ $(BIN_DIR)/roller: $(OBJS)
 ball.o: $(SRC_DIR)/ball.c $(HEADDERS)
 	cc -c $(CFLAG) $(SRC_DIR)/ball.c
 
+floor.o: $(SRC_DIR)/floor.c $(HEADDERS)
+	cc -c $(CFLAG) $(SRC_DIR)/floor.c
 util.o: $(SRC_DIR)/util.c $(HEADDERS)
 	cc -c $(CFLAG) $(SRC_DIR)/util.c
 
