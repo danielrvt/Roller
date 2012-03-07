@@ -1,6 +1,9 @@
+#include "floor.h"
+
 typedef struct Ball {
   double position[2];
   double speed;
+  double radius;
 } Ball;
 
 /**
@@ -17,6 +20,6 @@ void drawBall(Ball *ball);
  * @param: La matriz de transformacion de la marca
  * sobre la que esta la pelota.
  */
-void updateBallPosition(Ball *ball, double trans[3][4]);
+void updateBallPosition(Ball *ball, double trans[3][4], Floor floor);
 
 

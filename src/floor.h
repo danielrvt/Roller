@@ -1,5 +1,8 @@
 typedef struct Floor {
-  int coord[4];
+  double top;
+  double bottom;
+  double left;
+  double right;
 } Floor;
 
 /**

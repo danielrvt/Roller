@@ -17,7 +17,6 @@
 #include <tgmath.h>
 #include "util.h"
 #include "ball.h"
-#include "floor.h"
 
 #define _USE_MATH_CONSTATS
 
@@ -62,14 +61,14 @@ int main(int argc, char **argv)
   // escenario con una velocidad de 0.5.
   ball.position[0] = 0.0;
   ball.position[1] = 0.0;
-  ball.speed = 0.5;
+  ball.speed = 0.8;
+  ball.radius = 7;
 
   //Inicializa el tablero.
-  table.coord[0] = 100;  //Coordenada x inicial
-  table.coord[1] = 100;  //Coordenada y inicial
-  table.coord[2] = -100; //Coordenada y final
-  table.coord[3] = -100; //Coordenada x final
-
+  table.top = 100; 
+  table.bottom = -100;
+  table.left = -100;
+  table.right = 100;
 
 
   // Inicializaciones generales.
@@ -141,7 +140,7 @@ static void mainLoop(void)
   arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
   // Actualiza la posicion de la pelota.
-  updateBallPosition(&ball, patt_trans);
+  updateBallPosition(&ball, patt_trans, table);
 
   draw();
   argSwapBuffers();

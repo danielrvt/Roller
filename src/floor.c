@@ -11,8 +11,8 @@
 #include <GLUT/glut.h>
 #endif
 
-#include "floor.h"
 #include "util.h"
+#include "floor.h"
 
 /*
  * Dibuja el tablero.
@@ -20,19 +20,19 @@
 */
 void drawFloor(Floor *floor){
 
-	glColor3f(1.0f,1.0f,0.0f);  
-	//Comienza a dibujar el cuadrado
+	glColor3f(0.0f,0.0f,0.0f);  
+
+//Comienza a dibujar el cuadrado
 	glBegin(GL_QUADS);
 
 	//Coordenadas del cuadrado
-	glVertex2f(floor->coord[0],floor->coord[1]); //Esquina Superior izquierda
-	glVertex2f(floor->coord[0],floor->coord[2]); //Esquina Inferior izquierda
- 	glVertex2f(floor->coord[3],floor->coord[2]); //Esquina Inferior derecha
-	glVertex2f(floor->coord[3],floor->coord[1]); //Esquina Superior derecha
+	glVertex2f(floor->left,floor->top);     //Esquina Superior izquierda
+	glVertex2f(floor->left,floor->bottom);  //Esquina Inferior izquierda
+ 	glVertex2f(floor->right,floor->bottom); //Esquina Inferior derecha
+	glVertex2f(floor->right,floor->top);    //Esquina Superior derecha
 	
 	//Deja de dibujar el cuadrado
 	glEnd();
 	glFlush();	
-	
 };
 
