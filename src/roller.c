@@ -16,7 +16,8 @@
 #include <AR/ar.h>
 #include <tgmath.h>
 #include "util.h"
-#include "ball.h"
+//#include "ball.h"
+#include "collision.h"
 
 #define _USE_MATH_CONSTATS
 
@@ -47,6 +48,8 @@ double  patt_trans[3][4];
 Ball ball;
 //Tablero
 Floor table;
+// Obstaculos.
+Obstacle *o;
 
 // Prototipos.
 static void init(void);
@@ -59,8 +62,8 @@ int main(int argc, char **argv)
 {
   // Inicializa la pelota en el centro del
   // escenario con una velocidad de 0.5.
-  ball.position[0] = 0.0;
-  ball.position[1] = 0.0;
+  ball.position[0] = -50.0;
+  ball.position[1] = 40.0;
   ball.speed = 0.8;
   ball.radius = 7;
 
@@ -70,7 +73,9 @@ int main(int argc, char **argv)
   table.left = -100;
   table.right = 100;
 
-
+  // Inicializa los obstaculos.
+  o = newObstacle(0,0,25);
+ 
   // Inicializaciones generales.
 	glutInit(&argc, argv);
 	init();
@@ -139,8 +144,15 @@ static void mainLoop(void)
   // camara.
   arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
-  // Actualiza la posicion de la pelota.
-  updateBallPosition(&ball, patt_trans, table);
+  if (!checkCollision(&ball, o)) {
+    updateBallPosition(&ball, patt_trans, table);
+  } else {
+    ball.position[0] = ball.prev_position[0];
+    ball.position[1] = ball.prev_position[1];
+  }
+
+  // Chequea colisiones.
+  printf("colision %d\n", checkCollision(&ball, o));
 
   draw();
   argSwapBuffers();
@@ -186,7 +198,7 @@ static void cleanup(void) {
 }
 
 /**
- * Dibuja una pelota sobre el marcador.
+ * Dibuja el escenario sobre el marcador.
  */
 static void draw( void ) {
 
@@ -220,6 +232,9 @@ static void draw( void ) {
   // Dibuja el tablero
   drawFloor(&table);
  
+  // Dibuja los obstaculos.
+  drawObstacle(o);
+
   // Dibuja la pelota.
   drawBall(&ball);
 

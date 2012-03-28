@@ -26,7 +26,7 @@ void drawBall(Ball *ball){
   glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
 
   glMatrixMode(GL_MODELVIEW);
-  glTranslatef(ball->position[0], ball->position[1], 15);
+  glTranslatef(ball->position[0], ball->position[1], ball->radius/2);
   glColor3f(0.0f,3.0f,3.0f);  
   glutSolidSphere(ball->radius, 10, 10);
 };
@@ -56,11 +56,15 @@ void updateBallPosition(Ball *ball, double trans[3][4], Floor floor) {
 
   // Checkea que no se salga por la izquierda ni la derecha.
   if (nextX - ball->radius > floor.left && nextX + ball->radius < floor.right){
+
+    ball->prev_position[0] = ball->position[0];
     ball->position[0] = nextX; 
   }
   
   // Checkea que no se salga por arriba ni por abajo.
   if (nextY - ball->radius < floor.top && nextY + ball->radius > floor.bottom){
+
+    ball->prev_position[1] = ball->position[1];
     ball->position[1] = nextY;
   }
 };

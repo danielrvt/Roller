@@ -1,6 +1,7 @@
 #include "floor.h"
 
 typedef struct Ball {
+  double prev_position[2];
   double position[2];
   double speed;
   double radius;

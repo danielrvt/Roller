@@ -14,6 +14,28 @@
 #include "util.h"
 #include "floor.h"
 
+void parallelepiped(int x1,  int x2,int y1, int y2, int y3, int y4) {
+  
+  glColor3f(0.0, 0.0, 1.0);
+  glPointSize(2.0);
+  glBegin(GL_LINE_LOOP);
+  glVertex2i(x1,y1);
+  glVertex2i(x2,y3);
+  glVertex2i(x2,y4);
+  glVertex2i(x1,y2);
+  glEnd();
+}
+
+void parallelepiped_draw() {
+  int x1=-100,x2=100,y1=-100,y2=100,y3=-100,y4=100;
+     GLint i,n=5;
+   for(i=0;i<n;i++)
+   {
+   parallelepiped(x1+i,x2+i,y1+i,y2+i,y3+i,y4+i);
+   }
+     
+}
+
 /*
  * Dibuja el tablero.
  * @param: El tablero.
@@ -22,7 +44,7 @@ void drawFloor(Floor *floor){
 
 	glColor3f(0.0f,0.0f,0.0f);  
 
-//Comienza a dibujar el cuadrado
+  //Comienza a dibujar el cuadrado
 	glBegin(GL_QUADS);
 
 	//Coordenadas del cuadrado
@@ -34,5 +56,9 @@ void drawFloor(Floor *floor){
 	//Deja de dibujar el cuadrado
 	glEnd();
 	glFlush();	
+
+  // Dibuja los bordes.
+  parallelepiped_draw();
 };
 
+   
