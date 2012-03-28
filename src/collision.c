@@ -66,17 +66,14 @@ void bounceBall(Ball *ball, Obstacle *o) {
 
   // Esta en la altura de choque.
   if (ball->position[1] >= o->bottom && ball->position[1] <= o->top) {
-    
 
     if(ball->position[0]>=o->left && ball->position[0]<=o->right){
     
      if(ball->prev_position[0]>=o->right){
-       ball->position[0] = ball->prev_position[0] + 20;
-       printf("Choque derecha\n");  
+       ball->position[0] = ball->prev_position[0] + 10;
      }
     if(ball->prev_position[0]<=o->left){
-       ball->position[0] = ball->prev_position[0] - 20;   
-       printf("Choque izquierda\n"); 
+       ball->position[0] = ball->prev_position[0] - 10;   
     } 
    }
   }
@@ -84,19 +81,15 @@ void bounceBall(Ball *ball, Obstacle *o) {
   // Esta en la amplitud de choque.
   if (ball->position[0] >= o->left && ball->position[0] <= o->right) {
     
-    if(ball->position[1]>=o->bottom && ball->position[1]<=o->top){
-      
-    //Choca por arriba
-     if(ball->prev_position[1]>=o->top){
-      ball->position[1] = ball->prev_position[1] + 20;
-      printf("Choque arriba\n"); 
-
-     }
-    //Choca por debajo
-    if(ball->prev_position[1]<=o->bottom){
-       ball->position[1] = ball->prev_position[1] - 20;   
-      printf("Choque abajo\n");  
-    }
+    if(ball->position[1]>=o->bottom && ball->position[1]<=o->top){    
+		  //Choca por arriba
+		  if(ball->prev_position[1]>=o->top){
+		    ball->position[1] = ball->prev_position[1] + 10;
+		  }
+		  //Choca por debajo
+		  if(ball->prev_position[1]<=o->bottom){
+		    ball->position[1] = ball->prev_position[1] - 10;   
+		  }
    } 
   } 
 }
@@ -104,8 +97,10 @@ void bounceBall(Ball *ball, Obstacle *o) {
 /**
  * Dibuja un obstaculo 
  * @param: Un objeto obstaculo.
+ * @param: La posicion del objeto a dibujar en la lista.
+ * @param: La posicion del objeto goal en la lista.
  */
-void drawObstacle(Obstacle *o) {
+void drawObstacle(Obstacle *o, int i, int goal) {
   
   glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION); // Importante para 
   glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
@@ -114,7 +109,13 @@ void drawObstacle(Obstacle *o) {
 
   glMatrixMode(GL_MODELVIEW);
   glTranslatef(o->position[0], o->position[1], o->size/2);
-  glColor3f(0.0f,0.0f,5.0f);  
+  
+  if(i == goal){
+   glColor3f(0.0f,3.0f,0.0f);  
+  }  
+  else{
+   glColor3f(0.0f,0.0f,5.0f);  
+  }
   glutSolidCube(o->size);
 
   glPopMatrix();
@@ -122,12 +123,17 @@ void drawObstacle(Obstacle *o) {
   
 }
 
-// Comentar.
-void drawObstacleList(Obstacle *olist, int size) {
+/**
+ * Dibuja una lista de obstaculos 
+ * @param: Una lista de objetos tipo obstaculo.
+ * @param: La cantidad de objetos en la lista.
+ * @param: La posicion del objeto goal en la lista.
+ */
+void drawObstacleList(Obstacle *olist, int size, int goal) {
   
   int i;
-  for (i=0; i < size; i++) {
-    drawObstacle(&olist[i]);
+	  for (i=0; i < size; i++){
+    drawObstacle(&olist[i],i,goal);
   }
 }
 

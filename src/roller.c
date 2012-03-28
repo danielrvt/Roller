@@ -51,6 +51,7 @@ Floor table;
 // Obstaculos.
 Obstacle *obstacles;
 int obstaclesSize;
+int goal;
 
 // Prototipos.
 static void init(void);
@@ -75,13 +76,18 @@ int main(int argc, char **argv)
   table.right = 100;
 
   // Inicializa los obstaculos.
-  obstaclesSize = 4;
+  obstaclesSize = 6;
+  goal = 3;
   obstacles = (Obstacle*) malloc(sizeof(Obstacle)*obstaclesSize);
 
   obstacles[0] = *newObstacle(0,0,25);
   obstacles[1] = *newObstacle(40,10,25);
-  obstacles[2] = *newObstacle(50,60,15);
+  obstacles[2] = *newObstacle(-40,60,15);
   obstacles[3] = *newObstacle(70,-70,15);
+  obstacles[4] = *newObstacle(80,40,15);
+  obstacles[5] = *newObstacle(-60,-50,15);
+
+
 
   // Inicializaciones generales.
 	glutInit(&argc, argv);
@@ -160,10 +166,17 @@ static void mainLoop(void)
     }
   }
  // Chequea colisiones para cada obstaculo.
-    if (obs_collision== -1){
+    if (obs_collision == -1){
       updateBallPosition(&ball, patt_trans, table);
     } else {
+      if(obs_collision==goal){
+        printf("Ganaste\n");
+        goal = rand() % (obstaclesSize);
+       // exit;
+      }
+      else{
       bounceBall(&ball, &obstacles[obs_collision]);
+      }
     }
 
   draw();
@@ -243,7 +256,7 @@ static void draw( void ) {
 
 
   // Dibuja los obstaculos.
-  drawObstacleList(obstacles,obstaclesSize);
+  drawObstacleList(obstacles,obstaclesSize,goal);
 
   // Dibuja el tablero
   drawFloor(&table);

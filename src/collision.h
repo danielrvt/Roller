@@ -37,7 +37,15 @@ void bounceBall(Ball *ball, Obstacle *o);
 /**
  * Dibuja un obstaculo 
  * @param: Un objeto obstaculo.
+ * @param: La posicion del objeto a dibujar en la lista.
+ * @param: La posicion del objeto goal en la lista.
  */
-void drawObstacle(Obstacle *o);
+void drawObstacle(Obstacle *o, int i, int goal);
 
-void drawObstacleList(Obstacle *olist, int size);
+/**
+ * Dibuja una lista de obstaculos 
+ * @param: Una lista de objetos tipo obstaculo.
+ * @param: La cantidad de objetos en la lista.
+ * @param: La posicion del objeto goal en la lista.
+ */
+void drawObstacleList(Obstacle *olist, int size, int goal);
