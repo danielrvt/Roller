@@ -152,14 +152,19 @@ static void mainLoop(void)
   arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
   int obs;
+  int obs_collision = -1;
   for(obs=0;obs<obstaclesSize;obs++){
     // Chequea colisiones para cada obstaculo.
-    if (!checkCollision(&ball, &obstacles[obs])){
-      updateBallPosition(&ball, patt_trans, table);
-    } else {
-      bounceBall(&ball, &obstacles[obs]);
+    if(checkCollision(&ball, &obstacles[obs])){
+      obs_collision = obs;
     }
   }
+ // Chequea colisiones para cada obstaculo.
+    if (obs_collision== -1){
+      updateBallPosition(&ball, patt_trans, table);
+    } else {
+      bounceBall(&ball, &obstacles[obs_collision]);
+    }
 
   draw();
   argSwapBuffers();
