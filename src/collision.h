@@ -28,6 +28,13 @@ Obstacle *newObstacle(int x, int y, int size);
 int checkCollision(Ball *ball, Obstacle *obstacle);
 
 /**
+ * Actualiza la posicion de la pelota de acuerdo al choque.
+ * @param: Pelota.
+ * @param: Obstaculo.
+ */
+void bounceBall(Ball *ball, Obstacle *o);
+
+/**
  * Dibuja un obstaculo 
  * @param: Un objeto obstaculo.
  */

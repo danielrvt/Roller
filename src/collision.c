@@ -58,6 +58,47 @@ int checkCollision(Ball *ball, Obstacle *obstacle) {
 }
 
 /**
+ * Actualiza la posicion de la pelota de acuerdo al choque.
+ * @param: Pelota.
+ * @param: Obstaculo.
+ */
+void bounceBall(Ball *ball, Obstacle *o) {
+
+  // Esta en la altura de choque.
+  if (ball->position[1] >= o->bottom && ball->position[1] <= o->top) {
+    
+
+    if(ball->position[0]>=o->left && ball->position[0]<=o->right){
+    
+     if(ball->prev_position[0]>=o->right){
+       ball->position[0] = ball->prev_position[0] + 20;
+   
+     }
+    if(ball->prev_position[0]<=o->left){
+       ball->position[0] = ball->prev_position[0] - 20;   
+
+    } 
+   }
+  }
+
+  // Esta en la amplitud de choque.
+  if (ball->position[0] >= o->left && ball->position[0] <= o->right) {
+    
+    if(ball->position[1]>=o->bottom && ball->position[1]<=o->top){
+      
+    //Choca por arriba
+     if(ball->prev_position[1]>=o->top){
+      ball->position[1] = ball->prev_position[1] + 20;
+    }
+    //Choca por debajo
+    if(ball->prev_position[1]<=o->bottom){
+       ball->position[1] = ball->prev_position[1] - 20;   
+     }
+   } 
+  } 
+}
+
+/**
  * Dibuja un obstaculo 
  * @param: Un objeto obstaculo.
  */

@@ -144,15 +144,14 @@ static void mainLoop(void)
   // camara.
   arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
+  // Chequea colisiones.
   if (!checkCollision(&ball, o)) {
     updateBallPosition(&ball, patt_trans, table);
   } else {
-    ball.position[0] = ball.prev_position[0];
-    ball.position[1] = ball.prev_position[1];
+    bounceBall(&ball, o);
+    //ball.position[0] = ball.prev_position[0];
+    //ball.position[1] = ball.prev_position[1];
   }
-
-  // Chequea colisiones.
-  printf("colision %d\n", checkCollision(&ball, o));
 
   draw();
   argSwapBuffers();
