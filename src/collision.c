@@ -72,11 +72,11 @@ void bounceBall(Ball *ball, Obstacle *o) {
     
      if(ball->prev_position[0]>=o->right){
        ball->position[0] = ball->prev_position[0] + 20;
-   
+       printf("Choque derecha\n");  
      }
     if(ball->prev_position[0]<=o->left){
        ball->position[0] = ball->prev_position[0] - 20;   
-
+       printf("Choque izquierda\n"); 
     } 
    }
   }
@@ -89,11 +89,14 @@ void bounceBall(Ball *ball, Obstacle *o) {
     //Choca por arriba
      if(ball->prev_position[1]>=o->top){
       ball->position[1] = ball->prev_position[1] + 20;
-    }
+      printf("Choque arriba\n"); 
+
+     }
     //Choca por debajo
     if(ball->prev_position[1]<=o->bottom){
        ball->position[1] = ball->prev_position[1] - 20;   
-     }
+      printf("Choque abajo\n");  
+    }
    } 
   } 
 }
@@ -107,9 +110,24 @@ void drawObstacle(Obstacle *o) {
   glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION); // Importante para 
   glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
 
+  glPushMatrix();
+
   glMatrixMode(GL_MODELVIEW);
   glTranslatef(o->position[0], o->position[1], o->size/2);
   glColor3f(0.0f,0.0f,5.0f);  
   glutSolidCube(o->size);
+
+  glPopMatrix();
+  glFlush();
+  
+}
+
+// Comentar.
+void drawObstacleList(Obstacle *olist, int size) {
+  
+  int i;
+  for (i=0; i < size; i++) {
+    drawObstacle(&olist[i]);
+  }
 }
 

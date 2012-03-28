@@ -25,10 +25,16 @@ void drawBall(Ball *ball){
   glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION); // Importante para 
   glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
 
+
+  glPushMatrix();
+
   glMatrixMode(GL_MODELVIEW);
   glTranslatef(ball->position[0], ball->position[1], ball->radius/2);
   glColor3f(0.0f,3.0f,3.0f);  
   glutSolidSphere(ball->radius, 10, 10);
+
+  glPopMatrix();
+  glFlush();
 };
 
 /**

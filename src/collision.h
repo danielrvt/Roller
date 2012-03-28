@@ -40,3 +40,4 @@ void bounceBall(Ball *ball, Obstacle *o);
  */
 void drawObstacle(Obstacle *o);
 
+void drawObstacleList(Obstacle *olist, int size);

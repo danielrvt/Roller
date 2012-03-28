@@ -43,6 +43,7 @@ void parallelepiped_draw() {
 void drawFloor(Floor *floor){
 
 	glColor3f(0.0f,0.0f,0.0f);  
+  glPushMatrix();
 
   //Comienza a dibujar el cuadrado
 	glBegin(GL_QUADS);
@@ -55,6 +56,8 @@ void drawFloor(Floor *floor){
 	
 	//Deja de dibujar el cuadrado
 	glEnd();
+
+  glPopMatrix();
 	glFlush();	
 
   // Dibuja los bordes.

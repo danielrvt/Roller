@@ -49,7 +49,8 @@ Ball ball;
 //Tablero
 Floor table;
 // Obstaculos.
-Obstacle *o;
+Obstacle *obstacles;
+int obstaclesSize;
 
 // Prototipos.
 static void init(void);
@@ -74,8 +75,14 @@ int main(int argc, char **argv)
   table.right = 100;
 
   // Inicializa los obstaculos.
-  o = newObstacle(0,0,25);
- 
+  obstaclesSize = 2;
+  obstacles = (Obstacle*) malloc(sizeof(Obstacle)*obstaclesSize);
+
+  obstacles[0] = *newObstacle(0,0,25);
+  obstacles[1] = *newObstacle(40,10,25);
+  //obstacles[2] = *newObstacle(50,60,15);
+  //obstacles[3] = *newObstacle(70,-70,15);
+
   // Inicializaciones generales.
 	glutInit(&argc, argv);
 	init();
@@ -144,13 +151,14 @@ static void mainLoop(void)
   // camara.
   arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
-  // Chequea colisiones.
-  if (!checkCollision(&ball, o)) {
-    updateBallPosition(&ball, patt_trans, table);
-  } else {
-    bounceBall(&ball, o);
-    //ball.position[0] = ball.prev_position[0];
-    //ball.position[1] = ball.prev_position[1];
+  int obs;
+  for(obs=0;obs<obstaclesSize;obs++){
+    // Chequea colisiones para cada obstaculo.
+    if (!checkCollision(&ball, &obstacles[obs])){
+      updateBallPosition(&ball, patt_trans, table);
+    } else {
+      bounceBall(&ball, &obstacles[obs]);
+    }
   }
 
   draw();
@@ -228,12 +236,13 @@ static void draw( void ) {
   glLightfv(GL_LIGHT0, GL_AMBIENT, ambi);
   glLightfv(GL_LIGHT0, GL_DIFFUSE, lightZeroColor);
 
+
+  // Dibuja los obstaculos.
+  drawObstacleList(obstacles,obstaclesSize);
+
   // Dibuja el tablero
   drawFloor(&table);
  
-  // Dibuja los obstaculos.
-  drawObstacle(o);
-
   // Dibuja la pelota.
   drawBall(&ball);
 
