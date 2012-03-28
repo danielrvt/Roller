@@ -75,13 +75,13 @@ int main(int argc, char **argv)
   table.right = 100;
 
   // Inicializa los obstaculos.
-  obstaclesSize = 2;
+  obstaclesSize = 4;
   obstacles = (Obstacle*) malloc(sizeof(Obstacle)*obstaclesSize);
 
   obstacles[0] = *newObstacle(0,0,25);
   obstacles[1] = *newObstacle(40,10,25);
-  //obstacles[2] = *newObstacle(50,60,15);
-  //obstacles[3] = *newObstacle(70,-70,15);
+  obstacles[2] = *newObstacle(50,60,15);
+  obstacles[3] = *newObstacle(70,-70,15);
 
   // Inicializaciones generales.
 	glutInit(&argc, argv);

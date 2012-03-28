@@ -36,6 +36,57 @@ void parallelepiped_draw() {
      
 }
 
+void drawFrame(Floor *floor) {
+
+  glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION); // Importante para 
+  glEnable(GL_COLOR_MATERIAL);                     // colorizar con iluminacion.
+
+  int thickness = 5;
+  
+  int i;
+  for(i=0; i<abs(floor->left-floor->right); i+=thickness) {
+    
+    // Fila superior
+    glPushMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glTranslatef(floor->left + i, floor->top, thickness);
+    glColor3f(0.0f,0.0f,5.0f);  
+    glutSolidCube(5);
+    glPopMatrix();
+    glFlush();
+
+    // Fila inferior
+    glPushMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glTranslatef(floor->left + i, floor->bottom, thickness);
+    glColor3f(0.0f,0.0f,5.0f);  
+    glutSolidCube(5);
+    glPopMatrix();
+    glFlush();
+  }
+
+  for(i=0; i<abs(floor->bottom-floor->top); i+=thickness) {
+    
+    // Columna izquierda
+    glPushMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glTranslatef(floor->left, floor->bottom + i, thickness);
+    glColor3f(0.0f,0.0f,5.0f);  
+    glutSolidCube(5);
+    glPopMatrix();
+    glFlush();
+
+    // Columna derecha
+    glPushMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glTranslatef(floor->right, floor->bottom + i, thickness);
+    glColor3f(0.0f,0.0f,5.0f);  
+    glutSolidCube(5);
+    glPopMatrix();
+    glFlush();
+  }
+}
+
 /*
  * Dibuja el tablero.
  * @param: El tablero.
@@ -61,7 +112,8 @@ void drawFloor(Floor *floor){
 	glFlush();	
 
   // Dibuja los bordes.
-  parallelepiped_draw();
+  //parallelepiped_draw();
+  drawFrame(floor);
 };
 
    
